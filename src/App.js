@@ -12,6 +12,17 @@ class App extends Component {
     this.setState({ movies: movies });
   };
 
+  handleLike = movie => {
+    const indexMovie = this.state.movies.indexOf(movie);
+    if (this.state.movies[indexMovie].liked) {
+      this.state.movies[indexMovie].liked = false;
+    } else {
+      this.state.movies[indexMovie].liked = true;
+    }
+
+    this.setState(this.state.movies);
+  };
+
   render() {
     if (this.state.movies.length === 0) {
       return <span>No movies left</span>;
@@ -20,7 +31,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <span>{"Number of movies left: " + this.state.movies.length}</span>;
-        <main class="container">
+        <main className="container">
           <table className="table">
             <thead>
               <tr>
@@ -28,6 +39,7 @@ class App extends Component {
                 <th>Genre</th>
                 <th>Stock</th>
                 <th>Rate</th>
+                <th>Like</th>
                 <th />
               </tr>
             </thead>
@@ -38,6 +50,12 @@ class App extends Component {
                   <td>{m.genre.name}</td>
                   <td>{m.numberInStock}</td>
                   <td>{m.dailyRentalRate}</td>
+                  <td>
+                    <button
+                      onClick={() => this.handleLike(m)}
+                      className={m.liked ? "fa fa-heart" : "fa fa-heart-o"}
+                    ></button>
+                  </td>
                   <td>
                     <button onClick={() => this.handleDelete(m)}>Delete</button>
                   </td>
